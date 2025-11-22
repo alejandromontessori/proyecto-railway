@@ -265,16 +265,13 @@ Route::get('/ideas/{id}/opiniones', [OpinionController::class, 'porIdea'])
 
 Route::get('/run-migrations-railway', function () {
     try {
-        // Limpiamos la caché de configuración por si acaso
         Artisan::call('config:clear');
 
-        // Ejecutamos migrate:fresh sobre la conexión mysql
         Artisan::call('migrate:fresh', [
-            '--force'    => true,
-            '--database' => 'mysql',
+            '--force' => true,
         ]);
 
-        return 'Migraciones ejecutadas en Railway (MySQL)';
+        return 'Migraciones ejecutadas en Railway (sqlite)';
     } catch (\Throwable $e) {
         return 'ERROR MIGRACIONES: ' . $e->getMessage();
     }
