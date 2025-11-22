@@ -13,10 +13,24 @@ return new class extends Migration
     {
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_autor')->constrained('usuarios')->cascadeOnDelete();
-            $table->string("nombre");
-            $table->text("descripcion");
-            $table->enum("dificultad",["facil","media","dificil"]);
+
+            // Ahora apuntamos a la tabla 'users', que es la que usas con el modelo User
+            $table->foreignId('id_autor')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->string('nombre');
+            $table->text('descripcion')->nullable(); // pon nullable si a veces la dejas vacía
+
+            // Campo que te falta en Railway y que el modelo sí usa
+            $table->string('tipo'); // o ->nullable() si quieres ir más seguro
+
+            // Campo opcional de foto
+            $table->string('fotoIdea')->nullable();
+
+            // Si quieres conservar dificultad y la usas en la web, puedes dejarla:
+            // $table->enum('dificultad', ['facil','media','dificil'])->default('media');
+
             $table->timestamps();
         });
     }
