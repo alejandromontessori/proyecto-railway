@@ -269,46 +269,48 @@ Route::get('/run-migrations-railway', function () {
 });
 
 Route::get('/crear-usuarios-demo-railway', function () {
+    try {
+        // ADMINISTRADOR
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@demo.com'],
+            [
+                'apodo'        => 'admin',
+                'nombre'       => 'Admin',
+                'apellidos'    => 'Demo',
+                'password'     => Hash::make('12345678'),
+                'rol'          => 'Administrador',   // coincide con esAdmin()
+                'foto_perfil'  => null,
+            ]
+        );
 
-    // ADMINISTRADOR
-    $admin = User::firstOrCreate(
-        ['email' => 'admin@demo.com'],
-        [
-            'apodo'        => 'admin',
-            'nombre'       => 'Admin',
-            'apellidos'    => 'Demo',
-            'password'     => Hash::make('12345678'),
-            'rol'          => 'Administrador',   // coincide con esAdmin()
-            'foto_perfil'  => null,
-        ]
-    );
+        // AUTOR
+        $autor = User::firstOrCreate(
+            ['email' => 'autor@demo.com'],
+            [
+                'apodo'        => 'autor',
+                'nombre'       => 'Autor',
+                'apellidos'    => 'Demo',
+                'password'     => Hash::make('12345678'),
+                'rol'          => 'Autor',           // coincide con esAutor()
+                'foto_perfil'  => null,
+            ]
+        );
 
-    // AUTOR
+        // VISITANTE / USUARIO NORMAL
+        $usuario = User::firstOrCreate(
+            ['email' => 'usuario@demo.com'],
+            [
+                'apodo'        => 'usuario',
+                'nombre'       => 'Usuario',
+                'apellidos'    => 'Demo',
+                'password'     => Hash::make('12345678'),
+                'rol'          => 'Visitante',       // rol básico
+                'foto_perfil'  => null,
+            ]
+        );
 
-    $autor = User::firstOrCreate(
-        ['email' => 'autor@demo.com'],
-        [
-            'apodo'        => 'autor',
-            'nombre'       => 'Autor',
-            'apellidos'    => 'Demo',
-            'password'     => Hash::make('12345678'),
-            'rol'          => 'Autor',           // coincide con esAutor()
-            'foto_perfil'  => null,
-        ]
-    );
-
-    // VISITANTE / USUARIO NORMAL
-    $usuario = User::firstOrCreate(
-        ['email' => 'usuario@demo.com'],
-        [
-            'apodo'        => 'usuario',
-            'nombre'       => 'Usuario',
-            'apellidos'    => 'Demo',
-            'password'     => Hash::make('12345678'),
-            'rol'          => 'Visitante',       // rol básico
-            'foto_perfil'  => null,
-        ]
-    );
-
-    return 'Usuarios de demo creados en Railway';
+        return 'Usuarios de demo creados en Railway';
+    } catch (\Throwable $e) {
+        return 'ERROR: ' . $e->getMessage();
+    }
 });
