@@ -12,7 +12,7 @@ use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OpinionController;
 use App\Http\Controllers\AdController;
-
+use Illuminate\Support\Facades\Artisan;
 
 
 
@@ -258,3 +258,10 @@ Route::middleware(['auth'])
 
 Route::get('/ideas/{id}/opiniones', [OpinionController::class, 'porIdea'])
     ->name('opiniones.porIdea');
+
+//RAILWAY
+
+Route::get('/run-migrations-railway', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migraciones ejecutadas en Railway';
+});
