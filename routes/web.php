@@ -14,6 +14,7 @@ use App\Http\Controllers\OpinionController;
 use App\Http\Controllers\AdController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 
 
@@ -283,7 +284,7 @@ Route::get('/crear-usuarios-demo-railway', function () {
     );
 
     // AUTOR
-    
+
     $autor = User::firstOrCreate(
         ['email' => 'autor@demo.com'],
         [
