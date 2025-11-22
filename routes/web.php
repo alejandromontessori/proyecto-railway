@@ -264,16 +264,20 @@ Route::get('/ideas/{id}/opiniones', [OpinionController::class, 'porIdea'])
 //RAILWAY
 
 Route::get('/run-migrations-railway', function () {
-    // Aseguramos que no haya caché de config
-    Artisan::call('config:clear');
+    try {
+        // Limpiamos la caché de configuración por si acaso
+        Artisan::call('config:clear');
 
-    // BORRA todas las tablas de la BD indicada y las vuelve a crear desde las migraciones
-    Artisan::call('migrate:fresh', [
-        '--force'    => true,
-        '--database' => 'mysql',
-    ]);
+        // Ejecutamos migrate:fresh sobre la conexión mysql
+        Artisan::call('migrate:fresh', [
+            '--force'    => true,
+            '--database' => 'mysql',
+        ]);
 
-    return 'Migraciones ejecutadas en Railway (MySQL)';
+        return 'Migraciones ejecutadas en Railway (MySQL)';
+    } catch (\Throwable $e) {
+        return 'ERROR MIGRACIONES: ' . $e->getMessage();
+    }
 });
 
 Route::get('/crear-usuarios-demo-railway', function () {
