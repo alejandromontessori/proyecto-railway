@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OpinionController;
 use App\Http\Controllers\AdController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -264,4 +265,49 @@ Route::get('/ideas/{id}/opiniones', [OpinionController::class, 'porIdea'])
 Route::get('/run-migrations-railway', function () {
     Artisan::call('migrate', ['--force' => true]);
     return 'Migraciones ejecutadas en Railway';
+});
+
+Route::get('/crear-usuarios-demo-railway', function () {
+
+    // ADMINISTRADOR
+    $admin = User::firstOrCreate(
+        ['email' => 'admin@demo.com'],
+        [
+            'apodo'        => 'admin',
+            'nombre'       => 'Admin',
+            'apellidos'    => 'Demo',
+            'password'     => Hash::make('12345678'),
+            'rol'          => 'Administrador',   // coincide con esAdmin()
+            'foto_perfil'  => null,
+        ]
+    );
+
+    // AUTOR
+    
+    $autor = User::firstOrCreate(
+        ['email' => 'autor@demo.com'],
+        [
+            'apodo'        => 'autor',
+            'nombre'       => 'Autor',
+            'apellidos'    => 'Demo',
+            'password'     => Hash::make('12345678'),
+            'rol'          => 'Autor',           // coincide con esAutor()
+            'foto_perfil'  => null,
+        ]
+    );
+
+    // VISITANTE / USUARIO NORMAL
+    $usuario = User::firstOrCreate(
+        ['email' => 'usuario@demo.com'],
+        [
+            'apodo'        => 'usuario',
+            'nombre'       => 'Usuario',
+            'apellidos'    => 'Demo',
+            'password'     => Hash::make('12345678'),
+            'rol'          => 'Visitante',       // rol básico
+            'foto_perfil'  => null,
+        ]
+    );
+
+    return 'Usuarios de demo creados en Railway';
 });
