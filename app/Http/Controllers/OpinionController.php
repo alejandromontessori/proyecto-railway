@@ -23,7 +23,7 @@ class OpinionController extends Controller
 
         $ideas = Idea::select('id', 'nombre')->orderBy('nombre')->get();
 
-        return view('VerOpiniones', compact('opiniones', 'ideas'));
+        return view('verOpiniones', compact('opiniones', 'ideas'));
     }
 
     /** Opiniones de una idea concreta */
