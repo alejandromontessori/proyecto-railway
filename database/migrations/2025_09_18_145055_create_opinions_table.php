@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('opiniones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_autor")->constrained("usuarios")->cascadeOnDelete();
+            $table->foreignId("id_autor")->constrained("users")->cascadeOnDelete();
             $table->foreignId("id_idea")->constrained("ideas")->cascadeOnDelete();
             $table->foreignId("id_respondido")->nullable()->constrained("opiniones")->cascadeOnDelete();
             $table->text("texto");
